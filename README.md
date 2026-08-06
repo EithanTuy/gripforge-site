@@ -32,9 +32,21 @@ DNS lives at GoDaddy: apex `A @ -> 75.2.60.5` (Netlify's load balancer) and
 Delete `index.html` and drop the real site in its place, or point the
 `gripforge.us` DNS at the new host. Nothing here is depended on elsewhere.
 
+## Signup
+
+The "Hear when it ships" form uses Netlify Forms, under the form name
+`updates`. Submissions are in the Netlify dashboard under Forms, and can be
+exported as CSV. The free plan allows 100 submissions per month; past that,
+Netlify silently drops them, so watch the count if this gets traffic.
+
+Site-level form detection must stay on. It is off by default on new Netlify
+projects; the site now has `ignore_html_forms` set to false. If the form ever
+stops recording, check that first.
+
+Without JavaScript the form posts normally and lands on `/thanks/`. With it,
+a small inline script posts the form and reports success in place.
+
 ## Notes
 
-- No email capture — there is no backend for it yet, and a dead signup form
-  is worse than none.
 - No social links — no verified GripForge accounts existed at the time of
   writing. Add them when they do.
