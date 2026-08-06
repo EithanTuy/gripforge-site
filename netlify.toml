@@ -11,3 +11,15 @@
   for = "/index.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# Must never be cached, or the kill switch cannot reach stale clients.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=0, no-cache, must-revalidate"

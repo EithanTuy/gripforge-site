@@ -12,8 +12,10 @@
 <meta property="og:title" content="The Frameboard — The hangboard that adjusts to you.">
 <meta property="og:description" content="The Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. More soon.">
 <meta property="og:url" content="https://gripforge.us/">
+<meta property="og:image" content="https://gripforge.us/assets/gripforge-logo.png">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0D0C'/%3E%3Crect x='4' y='11' width='11' height='11' rx='1' fill='%23B98551'/%3E%3Crect x='17' y='11' width='11' height='11' rx='1' fill='%23B98551'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="/assets/gripforge-mark.png">
+<link rel="apple-touch-icon" href="/assets/gripforge-mark.png">
 
 <style>
   :root{
@@ -64,17 +66,21 @@
     display:flex;
     flex-wrap:wrap;
     gap:.85rem 1.5rem;
-    align-items:baseline;
+    align-items:center;
     justify-content:space-between;
     padding-bottom:clamp(1rem,2.4vw,1.5rem);
   }
 
   .wordmark{
-    font-size:clamp(1rem,2.1vw,1.3rem);
-    font-weight:700;
-    letter-spacing:.3em;
     margin:0;
-    text-transform:uppercase;
+    display:flex;
+    align-items:center;
+  }
+
+  .wordmark img{
+    display:block;
+    height:clamp(21px,2.5vw,30px);
+    width:auto;
   }
 
   .status{
@@ -231,7 +237,6 @@
   }
 
   @media (max-width:520px){
-    .wordmark{letter-spacing:.24em}
     header{gap:.6rem}
     .figure{max-width:290px}
   }
@@ -251,7 +256,7 @@
 <body>
 
   <header>
-    <p class="wordmark rise">GripForge</p>
+    <p class="wordmark rise"><img src="/assets/gripforge-logo.png" width="760" height="110" alt="GripForge"></p>
     <p class="status rise" style="--d:.1s"><span class="dot" aria-hidden="true"></span>We&rsquo;re getting set up.</p>
   </header>
 
@@ -262,7 +267,7 @@
       <p class="eyebrow rise" style="--d:.18s">The Frameboard</p>
       <h1 class="rise" style="--d:.26s">The hangboard that adjusts to you.</h1>
       <p class="lede rise" style="--d:.36s">The Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. We&rsquo;re getting everything ready. More soon.</p>
-      <p class="tagline rise" style="--d:.46s">Set your reach. Swap your holds. Train.</p>
+      <p class="tagline rise" style="--d:.46s">Set your reach. Swap your holds.</p>
     </div>
 
     <figure class="figure">
