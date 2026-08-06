@@ -14,8 +14,10 @@ Open `index.html` in a browser, or serve the folder with any static server.
 
 ## Deploy
 
-Hosted on GitHub Pages from the `main` branch, root directory.
-Pushing to `main` publishes.
+Hosted on Netlify. `netlify.toml` publishes the repo root as-is — there is no
+build step. Deploy with:
+
+    netlify deploy --prod --dir .
 
 ## Replacing this with the real store
 
