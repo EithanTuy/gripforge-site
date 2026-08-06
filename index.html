@@ -149,6 +149,72 @@
     color:var(--paper);
   }
 
+  /* ---------- signup ---------- */
+  .signup{
+    margin:clamp(1.5rem,3.2vw,2.1rem) 0 0;
+    max-width:26rem;
+  }
+
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  .signup-label{
+    display:block;
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 .8rem;
+  }
+
+  .signup-row{display:flex;gap:.6rem;flex-wrap:wrap}
+
+  .signup input[type=email]{
+    flex:1 1 11rem;
+    min-width:0;
+    background:transparent;
+    border:0;
+    border-bottom:1px solid rgba(240,235,225,.26);
+    border-radius:0;
+    color:var(--paper);
+    font:inherit;
+    font-size:.95rem;
+    padding:.6rem 0;
+  }
+
+  .signup input[type=email]::placeholder{color:rgba(240,235,225,.42)}
+  .signup input[type=email]:focus{border-bottom-color:var(--ember)}
+  .signup :focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+
+  .signup button{
+    flex:0 0 auto;
+    background:transparent;
+    color:var(--paper);
+    border:1px solid rgba(240,235,225,.3);
+    font:inherit;
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    padding:.72rem 1.15rem;
+    cursor:pointer;
+    transition:background .18s ease,color .18s ease,border-color .18s ease;
+  }
+
+  .signup button:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+  .signup button[disabled]{opacity:.5;cursor:default}
+
+  .signup-note{
+    margin:.85rem 0 0;
+    font-size:.8rem;
+    line-height:1.4;
+    color:var(--muted);
+    min-height:1.15em;
+  }
+
+  .signup-note[data-state="ok"]{color:var(--wood)}
+  .signup-note[data-state="err"]{color:var(--ember)}
+
   /* ---------- product mark ---------- */
   .figure{
     margin:0;
@@ -268,6 +334,18 @@
       <h1 class="rise" style="--d:.26s">The hangboard that adjusts to you.</h1>
       <p class="lede rise" style="--d:.36s">The Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. We&rsquo;re getting everything ready. More soon.</p>
       <p class="tagline rise" style="--d:.46s">Set your reach. Swap your holds.</p>
+
+      <form class="signup rise" style="--d:.54s" name="updates" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="updates">
+        <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+
+        <label class="signup-label" for="email">Hear when it ships</label>
+        <div class="signup-row">
+          <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+          <button type="submit">Notify me</button>
+        </div>
+        <p class="signup-note" role="status" aria-live="polite"></p>
+      </form>
     </div>
 
     <figure class="figure">
@@ -332,6 +410,41 @@
     <span>gripforge.us</span>
     <span>&copy; 2026 GripForge</span>
   </footer>
+
+  <script>
+    // Progressive enhancement only. Without JS the form posts normally and
+    // Netlify redirects to /thanks/.
+    (function () {
+      var form = document.querySelector('.signup');
+      if (!form || !window.fetch || !window.URLSearchParams) return;
+
+      var note = form.querySelector('.signup-note');
+      var button = form.querySelector('button');
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        button.disabled = true;
+        note.removeAttribute('data-state');
+        note.textContent = 'Sending…';
+
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        }).then(function (res) {
+          if (!res.ok) throw new Error(res.status);
+          form.reset();
+          note.setAttribute('data-state', 'ok');
+          note.textContent = 'You’re on the list.';
+        }).catch(function () {
+          note.setAttribute('data-state', 'err');
+          note.textContent = 'That didn’t send. Try again in a moment.';
+        }).then(function () {
+          button.disabled = false;
+        });
+      });
+    })();
+  </script>
 
 </body>
 </html>
