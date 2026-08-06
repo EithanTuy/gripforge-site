@@ -14,10 +14,18 @@ Open `index.html` in a browser, or serve the folder with any static server.
 
 ## Deploy
 
-Hosted on Netlify. `netlify.toml` publishes the repo root as-is — there is no
-build step. Deploy with:
+Hosted on Netlify as project `gripforge-us` (team `etservice`), serving
+gripforge.us. `netlify.toml` publishes the repo root as-is, with no build step.
+
+Deploys are manual from this folder:
 
     netlify deploy --prod --dir .
+
+The project is not linked to this GitHub repo, so pushing here does not
+publish. Connect it in Netlify under Build & deploy if you want that later.
+
+DNS lives at GoDaddy: apex `A @ -> 75.2.60.5` (Netlify's load balancer) and
+`CNAME www -> gripforge.us`. Google Workspace MX records are untouched.
 
 ## Replacing this with the real store
 
