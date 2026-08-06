@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GripForge — The hangboard that adjusts to you.</title>
+<meta name="description" content="GripForge Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. We're getting everything ready. More soon.">
+<link rel="canonical" href="https://gripforge.us/">
+<meta name="theme-color" content="#0D0D0C">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="GripForge">
+<meta property="og:title" content="GripForge — The hangboard that adjusts to you.">
+<meta property="og:description" content="Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. More soon.">
+<meta property="og:url" content="https://gripforge.us/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230D0D0C'/%3E%3Crect x='7' y='7' width='7' height='18' rx='1.5' fill='%23B98551'/%3E%3Crect x='18' y='7' width='7' height='18' rx='1.5' fill='%23B98551'/%3E%3C/svg%3E">
+
+<style>
+  :root{
+    --ink:#0D0D0C;
+    --paper:#F0EBE1;
+    --muted:rgba(240,235,225,.62);
+    --faint:rgba(240,235,225,.12);
+    --wood:#B98551;
+    --ember:#CF4E22;
+  }
+
+  *,*::before,*::after{box-sizing:border-box}
+
+  html{-webkit-text-size-adjust:100%;background:var(--ink)}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    min-height:100svh;
+    max-width:1320px;
+    margin-inline:auto;
+    display:flex;
+    flex-direction:column;
+    padding:clamp(1.4rem,4vw,3.25rem);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    font-synthesis-weight:none;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* fine grain — keeps the flat black from looking like a default page */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+    opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .rule{height:1px;background:var(--faint);border:0;margin:0}
+
+  /* ---------- header ---------- */
+  header{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.85rem 1.5rem;
+    align-items:baseline;
+    justify-content:space-between;
+    padding-bottom:clamp(1rem,2.4vw,1.5rem);
+  }
+
+  .wordmark{
+    font-size:clamp(1rem,2.1vw,1.3rem);
+    font-weight:700;
+    letter-spacing:.3em;
+    margin:0;
+    text-transform:uppercase;
+  }
+
+  .status{
+    display:inline-flex;
+    align-items:center;
+    gap:.6rem;
+    font-size:.68rem;
+    font-weight:500;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  .status .dot{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--ember);
+    flex:none;
+  }
+
+  /* ---------- main ---------- */
+  main{
+    flex:1;
+    display:grid;
+    grid-template-columns:minmax(0,1.05fr) minmax(0,.8fr);
+    align-items:center;
+    gap:clamp(2.5rem,7vw,6rem);
+    padding:clamp(2rem,6vh,5rem) 0;
+  }
+
+  .eyebrow{
+    font-size:.7rem;
+    font-weight:600;
+    letter-spacing:.32em;
+    text-transform:uppercase;
+    color:var(--wood);
+    margin:0 0 clamp(1.1rem,2.4vw,1.6rem);
+  }
+
+  h1{
+    font-size:clamp(2.35rem,6.6vw,4.5rem);
+    font-weight:600;
+    line-height:1.03;
+    letter-spacing:-.028em;
+    margin:0;
+    max-width:14ch;
+    text-wrap:balance;
+  }
+
+  .lede{
+    margin:clamp(1.4rem,3vw,2rem) 0 0;
+    max-width:44ch;
+    font-size:clamp(1rem,1.35vw,1.09rem);
+    line-height:1.62;
+    color:var(--muted);
+  }
+
+  .tagline{
+    margin:clamp(1.9rem,4vw,2.75rem) 0 0;
+    padding-top:clamp(1.4rem,3vw,1.9rem);
+    border-top:1px solid var(--faint);
+    display:inline-block;
+    font-size:.76rem;
+    font-weight:600;
+    letter-spacing:.19em;
+    text-transform:uppercase;
+    color:var(--paper);
+  }
+
+  /* ---------- product mark ---------- */
+  .figure{
+    margin:0;
+    justify-self:center;
+    width:100%;
+    max-width:410px;
+  }
+
+  .figure svg{display:block;width:100%;height:auto}
+
+  .panel-fill{fill:var(--wood);opacity:.13}
+  .panel-line{fill:none;stroke:var(--wood);stroke-width:1.6}
+  .metal{fill:var(--ink);stroke:var(--paper);stroke-opacity:.5;stroke-width:1.4}
+  .bolt{fill:var(--paper);opacity:.38}
+  .hold{fill:#1B1B19;stroke:var(--paper);stroke-opacity:.42;stroke-width:1.4;stroke-linejoin:round}
+  .rail{stroke:var(--paper);stroke-opacity:.2;stroke-width:1.5}
+  .rail-fill{fill:var(--paper);opacity:.05}
+  .drop{stroke:var(--paper);stroke-opacity:.14;stroke-width:1;stroke-dasharray:3 5}
+  .reach{stroke:var(--ember);stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  /* ---------- footer ---------- */
+  footer{
+    padding-top:clamp(1rem,2.4vw,1.5rem);
+    display:flex;
+    flex-wrap:wrap;
+    gap:.6rem 1.5rem;
+    justify-content:space-between;
+    font-size:.68rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+
+  /* ---------- motion ---------- */
+  @keyframes rise{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  @keyframes splitL{
+    from{opacity:0;transform:translateX(20px)}
+    to{opacity:1;transform:none}
+  }
+  @keyframes splitR{
+    from{opacity:0;transform:translateX(-20px)}
+    to{opacity:1;transform:none}
+  }
+
+  .rise{animation:rise .85s cubic-bezier(.22,.7,.3,1) both;animation-delay:var(--d,0s)}
+  .half-l{animation:splitL 1.15s cubic-bezier(.22,.75,.25,1) .25s both}
+  .half-r{animation:splitR 1.15s cubic-bezier(.22,.75,.25,1) .25s both}
+  .early{animation:fade .8s ease-out .15s both}
+  .late{animation:fade .7s ease-out 1.15s both}
+
+  @media (prefers-reduced-motion:reduce){
+    .rise,.half-l,.half-r,.early,.late{animation:none}
+  }
+
+  /* ---------- responsive ---------- */
+
+  /* short desktop windows: keep it to one screen */
+  @media (min-width:861px) and (max-height:820px){
+    main{padding:1.25rem 0}
+    h1{font-size:clamp(2.1rem,4.4vw,3.35rem)}
+    .figure{max-width:340px}
+  }
+
+  @media (max-width:860px){
+    main{
+      grid-template-columns:1fr;
+      gap:clamp(2.75rem,9vw,3.5rem);
+      padding:clamp(2rem,6vh,3.5rem) 0;
+    }
+    .figure{order:-1;max-width:290px;justify-self:start}
+    h1{max-width:16ch}
+  }
+
+  @media (max-width:520px){
+    .wordmark{letter-spacing:.24em}
+    header{gap:.6rem}
+    .figure{max-width:250px}
+  }
+
+  /* short phones: tighten so it stays close to one screen */
+  @media (max-width:860px) and (max-height:720px){
+    main{gap:1.6rem;padding:1.4rem 0}
+    .figure{max-width:176px}
+    h1{font-size:clamp(1.95rem,8vw,2.4rem)}
+    .eyebrow{margin-bottom:.85rem}
+    .lede{margin-top:1rem}
+    .tagline{margin-top:1.35rem;padding-top:1.05rem}
+  }
+</style>
+</head>
+
+<body>
+
+  <header>
+    <p class="wordmark rise">GripForge</p>
+    <p class="status rise" style="--d:.1s"><span class="dot" aria-hidden="true"></span>We&rsquo;re getting set up.</p>
+  </header>
+
+  <hr class="rule">
+
+  <main>
+    <div>
+      <p class="eyebrow rise" style="--d:.18s">Frameboard</p>
+      <h1 class="rise" style="--d:.26s">The hangboard that adjusts to you.</h1>
+      <p class="lede rise" style="--d:.36s">Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. We&rsquo;re getting everything ready. More soon.</p>
+      <p class="tagline rise" style="--d:.46s">Set your reach. Swap your holds. Train.</p>
+    </div>
+
+    <figure class="figure">
+      <svg viewBox="0 0 400 330" role="img" aria-label="Abstract mark: two independent Frameboard halves hanging from a door, each holding one climbing hold, with an adjustable distance between them.">
+
+        <!-- door top edge -->
+        <g class="early">
+          <rect class="rail-fill" x="8" y="64" width="384" height="9"/>
+          <line class="rail" x1="8" y1="64" x2="392" y2="64"/>
+        </g>
+
+        <!-- left half -->
+        <g class="half-l">
+          <rect class="panel-fill" x="88" y="58" width="94" height="190" rx="4"/>
+          <rect class="panel-line" x="88" y="58" width="94" height="190" rx="4"/>
+          <rect class="metal" x="117" y="46" width="36" height="54" rx="3"/>
+          <line class="metal" x1="111" y1="46" x2="159" y2="46"/>
+          <circle class="bolt" cx="126" cy="61" r="2.6"/>
+          <circle class="bolt" cx="144" cy="61" r="2.6"/>
+          <circle class="bolt" cx="126" cy="86" r="2.6"/>
+          <circle class="bolt" cx="144" cy="86" r="2.6"/>
+          <path class="hold" d="M108 150 H162 L156 188 H114 Z"/>
+        </g>
+
+        <!-- right half -->
+        <g class="half-r">
+          <rect class="panel-fill" x="218" y="58" width="94" height="190" rx="4"/>
+          <rect class="panel-line" x="218" y="58" width="94" height="190" rx="4"/>
+          <rect class="metal" x="247" y="46" width="36" height="54" rx="3"/>
+          <line class="metal" x1="241" y1="46" x2="289" y2="46"/>
+          <circle class="bolt" cx="256" cy="61" r="2.6"/>
+          <circle class="bolt" cx="274" cy="61" r="2.6"/>
+          <circle class="bolt" cx="256" cy="86" r="2.6"/>
+          <circle class="bolt" cx="274" cy="86" r="2.6"/>
+          <path class="hold" d="M238 150 H292 L286 188 H244 Z"/>
+        </g>
+
+        <!-- adjustable reach -->
+        <g class="late">
+          <line class="drop" x1="135" y1="252" x2="135" y2="282"/>
+          <line class="drop" x1="265" y1="252" x2="265" y2="282"/>
+          <line class="reach" x1="135" y1="290" x2="265" y2="290"/>
+          <polyline class="reach" points="142,285 135,290 142,295"/>
+          <polyline class="reach" points="258,285 265,290 258,295"/>
+        </g>
+
+      </svg>
+    </figure>
+  </main>
+
+  <hr class="rule">
+
+  <footer>
+    <span>gripforge.us</span>
+    <span>&copy; 2026 GripForge</span>
+  </footer>
+
+</body>
+</html>
