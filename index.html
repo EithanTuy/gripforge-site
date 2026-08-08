@@ -3,16 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Frameboard — GripForge</title>
-<meta name="description" content="The Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. The hangboard that adjusts to you. We're getting everything ready. More soon.">
+<title>GripForge Frameboard | Door-Mounted Adjustable Hangboard</title>
+<meta name="description" content="Meet Frameboard by GripForge, a door-mounted hangboard with adjustable reach and exchangeable climbing holds. Built by climbers in Michigan.">
 <link rel="canonical" href="https://gripforge.us/">
 <meta name="theme-color" content="#0D0D0C">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GripForge">
-<meta property="og:title" content="The Frameboard — The hangboard that adjusts to you.">
-<meta property="og:description" content="The Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. More soon.">
+<meta property="og:title" content="GripForge Frameboard | Door-Mounted Adjustable Hangboard">
+<meta property="og:description" content="A door-mounted hangboard with adjustable reach and exchangeable climbing holds. Built by climbers in Michigan. Working prototype now, first production run coming to Kickstarter.">
 <meta property="og:url" content="https://gripforge.us/">
+<!-- TODO: replace with a 1200x630 share card once we have one. The logo is
+     760x110, so link previews render it small; twitter:card stays "summary". -->
 <meta property="og:image" content="https://gripforge.us/assets/gripforge-logo.png">
+<meta property="og:image:alt" content="GripForge">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/png" href="/assets/gripforge-mark.png">
 <link rel="apple-touch-icon" href="/assets/gripforge-mark.png">
@@ -21,11 +24,16 @@
   :root{
     color-scheme:dark;
     --ink:#0D0D0C;
+    --panel:#131312;
     --paper:#F0EBE1;
     --muted:rgba(240,235,225,.62);
+    --dim:rgba(240,235,225,.45);
     --faint:rgba(240,235,225,.12);
     --wood:#B98551;
     --ember:#CF4E22;
+    --pad:clamp(1.15rem,5vw,3.25rem);
+    /* Softened corners, deliberately small so the page stays square. */
+    --r:4px;
   }
 
   *,*::before,*::after{box-sizing:border-box}
@@ -33,26 +41,21 @@
   html{
     -webkit-text-size-adjust:100%;
     background:var(--ink);
+    scroll-behavior:smooth;
+    scroll-padding-top:5rem;
     scrollbar-width:thin;
     scrollbar-color:rgba(240,235,225,.24) var(--ink);
   }
 
-  /* Only shows on viewports too short to fit; keep it in theme. */
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
   ::-webkit-scrollbar{width:10px;height:10px}
   ::-webkit-scrollbar-track{background:var(--ink)}
   ::-webkit-scrollbar-thumb{background:rgba(240,235,225,.2);border:2px solid var(--ink)}
   ::-webkit-scrollbar-thumb:hover{background:rgba(240,235,225,.34)}
-  ::-webkit-scrollbar-corner{background:var(--ink)}
 
   body{
     margin:0;
-    min-height:100vh;
-    min-height:100svh;
-    max-width:1320px;
-    margin-inline:auto;
-    display:flex;
-    flex-direction:column;
-    padding:clamp(1rem,min(4vw,3.4vh),3.25rem);
     background:var(--ink);
     color:var(--paper);
     font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
@@ -67,178 +70,176 @@
     position:fixed;
     inset:0;
     pointer-events:none;
-    z-index:1;
+    z-index:3;
     opacity:.04;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .rule{height:1px;background:var(--faint);border:0;margin:0}
+  .wrap{max-width:1180px;margin-inline:auto;padding-inline:var(--pad)}
 
-  /* ---------- header ---------- */
-  header{
-    display:flex;
-    flex-wrap:wrap;
-    gap:.6rem 1.5rem;
-    align-items:center;
-    justify-content:space-between;
-    padding-bottom:clamp(.6rem,1.9vh,1.5rem);
-  }
+  section{border-top:1px solid var(--faint)}
 
-  .wordmark{
-    margin:0;
-    display:flex;
-    align-items:center;
-  }
+  /* Tuned per section rather than one uniform token. The two short
+     two-column sections open a visible void underneath at a shared value,
+     and the hold grid wants more air above it than below. */
+  .band{padding-block:clamp(2.75rem,7vw,5rem)}
+  #story.band,#build.band{padding-block:clamp(2.5rem,5.5vw,4rem)}
+  #follow.band{padding-block:clamp(2.75rem,6vw,4.5rem)}
+  #holds.band{padding-block:clamp(2.75rem,7vw,5rem) clamp(3rem,7.5vw,5.5rem)}
 
-  .wordmark img{
-    display:block;
-    height:clamp(21px,2.5vw,30px);
-    width:auto;
-  }
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--ember);outline-offset:3px}
 
-  .status{
-    display:inline-flex;
-    align-items:center;
-    gap:.6rem;
-    font-size:.68rem;
-    font-weight:500;
-    letter-spacing:.2em;
-    text-transform:uppercase;
-    color:var(--muted);
-  }
-
-  .status .dot{
-    width:6px;height:6px;border-radius:50%;
-    background:var(--ember);
-    flex:none;
-  }
-
-  /* ---------- main ---------- */
-  main{
-    flex:1;
-    display:grid;
-    grid-template-columns:minmax(0,1.05fr) minmax(0,.8fr);
-    align-items:center;
-    gap:clamp(1.5rem,7vw,6rem);
-    padding:clamp(.5rem,3.4vh,5rem) 0;
-  }
-
-  .eyebrow{
-    font-size:clamp(.88rem,min(2vw,2.5vh),1.35rem);
+  /* ---------- type ---------- */
+  .kicker{
+    margin:0 0 clamp(.9rem,2.2vw,1.4rem);
+    font-size:.72rem;
     font-weight:700;
-    letter-spacing:.26em;
+    letter-spacing:.24em;
     text-transform:uppercase;
     color:var(--wood);
-    margin:0 0 clamp(.45rem,1.7vh,1.35rem);
   }
 
   h1{
-    font-size:clamp(1.85rem,min(6.6vw,7.4vh),4.5rem);
+    font-size:clamp(2.4rem,9vw,5.25rem);
     font-weight:600;
-    line-height:1.03;
-    letter-spacing:-.028em;
+    line-height:1.02;
+    letter-spacing:-.03em;
     margin:0;
-    max-width:14ch;
+    max-width:13ch;
     text-wrap:balance;
   }
 
-  .lede{
-    margin:clamp(.7rem,2.2vh,2rem) 0 0;
-    max-width:44ch;
-    font-size:clamp(.9rem,min(1.35vw,2.1vh),1.09rem);
-    line-height:1.55;
-    color:var(--muted);
-  }
-
-  .tagline{
-    margin:clamp(.9rem,2.6vh,2.75rem) 0 0;
-    padding-top:clamp(.7rem,1.9vh,1.9rem);
-    border-top:1px solid var(--faint);
-    display:inline-block;
-    font-size:.76rem;
+  h2{
+    font-size:clamp(1.65rem,4.6vw,2.85rem);
     font-weight:600;
-    letter-spacing:.19em;
-    text-transform:uppercase;
-    color:var(--paper);
-  }
-
-  /* ---------- signup ---------- */
-  .signup{
-    margin:clamp(.85rem,2.5vh,2.1rem) 0 0;
-    max-width:26rem;
-  }
-
-  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-
-  .signup-label{
-    display:block;
-    font-size:.72rem;
-    font-weight:600;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin:0 0 clamp(.4rem,1.3vh,.8rem);
-  }
-
-  .signup-row{display:flex;gap:.6rem;flex-wrap:wrap}
-
-  .signup input[type=email]{
-    flex:1 1 11rem;
-    min-width:0;
-    background:transparent;
-    border:0;
-    border-bottom:1px solid rgba(240,235,225,.26);
-    border-radius:0;
-    color:var(--paper);
-    font:inherit;
-    font-size:.95rem;
-    padding:.6rem 0;
-  }
-
-  .signup input[type=email]::placeholder{color:rgba(240,235,225,.42)}
-  .signup input[type=email]:focus{border-bottom-color:var(--ember)}
-  .signup :focus-visible{outline:2px solid var(--ember);outline-offset:3px}
-
-  .signup button{
-    flex:0 0 auto;
-    background:transparent;
-    color:var(--paper);
-    border:1px solid rgba(240,235,225,.3);
-    font:inherit;
-    font-size:.72rem;
-    font-weight:600;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    padding:.72rem 1.15rem;
-    cursor:pointer;
-    transition:background .18s ease,color .18s ease,border-color .18s ease;
-  }
-
-  .signup button:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
-  .signup button[disabled]{opacity:.5;cursor:default}
-
-  .signup-note{
-    margin:.75rem 0 0;
-    font-size:.8rem;
-    line-height:1.4;
-    color:var(--muted);
-  }
-
-  /* Matches line-height exactly, so the success message cannot add height. */
-  .signup-note{min-height:1.4em}
-
-  .signup-note[data-state="ok"]{color:var(--wood)}
-  .signup-note[data-state="err"]{color:var(--ember)}
-
-  /* ---------- product mark ---------- */
-  .figure{
+    line-height:1.08;
+    letter-spacing:-.025em;
     margin:0;
-    justify-self:center;
-    width:100%;
-    /* svg is 300x153, so height is ~0.51 of width; the vh term caps height. */
-    max-width:min(440px,78vh);
+    max-width:20ch;
+    text-wrap:balance;
   }
 
+  h3{
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    margin:0 0 .75rem;
+  }
+
+  .lede{
+    margin:clamp(1rem,2.6vw,1.6rem) 0 0;
+    max-width:46ch;
+    font-size:clamp(1rem,1.5vw,1.14rem);
+    line-height:1.6;
+    color:var(--muted);
+  }
+
+  .note{
+    margin:clamp(1rem,2.4vw,1.4rem) 0 0;
+    font-size:.8rem;
+    line-height:1.5;
+    color:var(--dim);
+  }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-block;
+    font:inherit;
+    font-size:.75rem;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:.95rem 1.5rem;
+    border:1px solid var(--paper);
+    background:var(--paper);
+    color:var(--ink);
+    cursor:pointer;
+    border-radius:var(--r);
+    transition:background .18s ease,color .18s ease;
+  }
+
+  .btn:hover{background:transparent;color:var(--paper)}
+
+  .btn-ghost{
+    background:transparent;
+    color:var(--paper);
+    border-color:rgba(240,235,225,.3);
+    padding:.6rem 1rem;
+    font-size:.68rem;
+  }
+
+  .btn-ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+
+  /* ---------- header ---------- */
+  .site-head{
+    position:sticky;
+    top:0;
+    z-index:2;
+    background:var(--ink);
+    border-bottom:1px solid var(--faint);
+  }
+
+  .head-in{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    height:clamp(3.5rem,7vw,4.25rem);
+  }
+
+  .wordmark{display:flex;align-items:center;flex:none}
+  .wordmark img{display:block;height:clamp(19px,2.4vw,26px);width:auto}
+
+  .nav{
+    display:flex;
+    align-items:center;
+    gap:clamp(1.1rem,2.6vw,2rem);
+    margin-left:auto;
+  }
+
+  .nav a.link{
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--muted);
+    transition:color .18s ease;
+  }
+
+  .nav a.link:hover{color:var(--paper)}
+
+  /* Links collapse on small screens; the CTA never does. Once it is the only
+     control up there it also has to clear a 44px touch target. */
+  @media (max-width:720px){
+    .nav a.link{display:none}
+    .btn-ghost{padding:.92rem 1.1rem}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{border-top:0;padding-block:clamp(2.75rem,8vw,5.5rem) clamp(3rem,8vw,6rem)}
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1.1fr) minmax(0,.85fr);
+    align-items:center;
+    gap:clamp(2.25rem,6vw,5rem);
+  }
+
+  .hero-cta{margin:clamp(1.6rem,3.6vw,2.4rem) 0 0}
+
+  .hero-sub{
+    margin:clamp(.95rem,2.2vw,1.25rem) 0 0;
+    font-size:.8rem;
+    letter-spacing:.02em;
+    color:var(--dim);
+  }
+
+  /* ---------- product mark (kept from the original page) ---------- */
+  .figure{margin:0;justify-self:center;width:100%;max-width:460px}
   .figure svg{display:block;width:100%;height:auto}
 
   .panel-edge{fill:var(--wood);opacity:.07}
@@ -261,20 +262,231 @@
   .drop{stroke:var(--paper);stroke-opacity:.14;stroke-width:.9;stroke-dasharray:3 4}
   .reach{stroke:var(--ember);stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
+  .figure figcaption{
+    margin-top:1.1rem;
+    text-align:center;
+    font-size:.68rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+
+  /* ---------- story ---------- */
+  .story-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:clamp(1.5rem,5vw,4.5rem);
+    align-items:start;
+  }
+
+  .story-grid p{
+    margin:0 0 1.1rem;
+    max-width:46ch;
+    font-size:clamp(1rem,1.5vw,1.14rem);
+    line-height:1.62;
+    color:var(--muted);
+  }
+
+  .story-grid p:last-child{margin-bottom:0}
+
+  /* ---------- feature + hold cards ---------- */
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:1px;
+    margin-top:clamp(2rem,5vw,3.25rem);
+    background:var(--faint);
+    border:1px solid var(--faint);
+    border-radius:var(--r);
+    overflow:hidden;
+  }
+
+  .card{
+    background:var(--ink);
+    padding:clamp(1.4rem,3vw,2rem);
+  }
+
+  .card p{
+    margin:0;
+    font-size:.95rem;
+    line-height:1.6;
+    color:var(--muted);
+  }
+
+  .packs{
+    display:grid;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:1px;
+    margin-top:clamp(2rem,5vw,3.25rem);
+    background:var(--faint);
+    border:1px solid var(--faint);
+    border-radius:var(--r);
+    overflow:hidden;
+  }
+
+  .pack{background:var(--panel);padding:clamp(1.25rem,2.6vw,1.75rem)}
+  .pack.is-included{background:var(--ink)}
+
+  .pack h3{color:var(--paper)}
+
+  .pack .tag{
+    display:inline-block;
+    margin:0 0 1rem;
+    font-size:.6rem;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    padding:.3rem .5rem;
+    border:1px solid rgba(185,133,81,.45);
+    border-radius:var(--r);
+    color:var(--wood);
+  }
+
+  .sizes{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem}
+
+  .sizes li{
+    font-size:.82rem;
+    font-variant-numeric:tabular-nums;
+    color:var(--paper);
+    border:1px solid var(--faint);
+    border-radius:var(--r);
+    padding:.4rem .6rem;
+    min-width:3.5rem;
+    text-align:center;
+  }
+
+  /* ---------- follow ---------- */
+  .follow-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:clamp(1.5rem,5vw,4.5rem);
+    align-items:center;
+  }
+
+  .socials{display:flex;flex-wrap:wrap;gap:.6rem;margin:0;padding:0;list-style:none}
+
+  .socials span{
+    display:inline-block;
+    font-size:.7rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    padding:.7rem 1.05rem;
+    border:1px dashed rgba(240,235,225,.22);
+    border-radius:var(--r);
+    color:var(--dim);
+  }
+
+  /* ---------- signup ---------- */
+  .cta{background:var(--panel)}
+  .cta .band{padding-block:clamp(3.25rem,8vw,5.75rem)}
+
+  .signup{margin:clamp(1.75rem,4vw,2.5rem) 0 0;max-width:34rem}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  .field-label{
+    display:block;
+    font-size:.68rem;
+    font-weight:600;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 .5rem;
+  }
+
+  .signup-row{display:flex;gap:.7rem;flex-wrap:wrap}
+
+  .signup input,.signup select{
+    background:transparent;
+    border:0;
+    border-bottom:1px solid rgba(240,235,225,.26);
+    border-radius:0;
+    color:var(--paper);
+    font:inherit;
+    font-size:.95rem;
+    padding:.72rem 0;
+    width:100%;
+    min-width:0;
+  }
+
+  .signup input::placeholder{color:rgba(240,235,225,.42)}
+  .signup input:focus,.signup select:focus{border-bottom-color:var(--ember)}
+
+  /* Native menu is light; force readable option text on every platform. */
+  .signup select option{background:var(--ink);color:var(--paper)}
+
+  .signup-row input[type=email]{flex:1 1 13rem;width:auto}
+  .signup-row .btn{flex:0 0 auto}
+
+  .optional{
+    margin-top:clamp(1.5rem,3.5vw,2rem);
+    padding-top:clamp(1.25rem,3vw,1.6rem);
+    border-top:1px solid var(--faint);
+  }
+
+  .optional-head{
+    margin:0 0 1.1rem;
+    font-size:.68rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+
+  /* Bottom-align so a label that wraps to two lines cannot knock its own
+     control out of line with the others. */
+  .optional-grid{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:1.1rem 1rem;
+    align-items:end;
+  }
+
+  .signup-note{
+    margin:1rem 0 0;
+    min-height:1.4em;
+    font-size:.82rem;
+    line-height:1.4;
+    color:var(--muted);
+  }
+
+  .signup-note[data-state="ok"]{color:var(--wood)}
+  .signup-note[data-state="err"]{color:var(--ember)}
+
+  .fineprint{margin:1.1rem 0 0;font-size:.78rem;color:var(--dim)}
+
   /* ---------- footer ---------- */
-  footer{
-    padding-top:clamp(.6rem,1.9vh,1.5rem);
+  .site-foot{border-top:1px solid var(--faint);padding-block:clamp(2rem,5vw,3rem)}
+
+  .foot-in{
     display:flex;
     flex-wrap:wrap;
-    gap:.4rem 1.5rem;
+    gap:1.25rem 2rem;
     justify-content:space-between;
+    align-items:flex-end;
+  }
+
+  .foot-brand img{display:block;height:20px;width:auto;margin-bottom:.85rem}
+
+  .foot-brand p{
+    margin:0;
+    font-size:.68rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--dim);
+  }
+
+  .foot-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.5rem 1.5rem;
+    align-items:center;
     font-size:.68rem;
     letter-spacing:.16em;
     text-transform:uppercase;
     color:var(--muted);
   }
 
-  footer .mail{
+  .foot-links a{
     color:var(--muted);
     text-decoration:none;
     border-bottom:1px solid rgba(240,235,225,.22);
@@ -282,23 +494,13 @@
     transition:color .18s ease,border-color .18s ease;
   }
 
-  footer .mail:hover{color:var(--paper);border-bottom-color:var(--paper)}
-  footer .mail:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+  .foot-links a:hover{color:var(--paper);border-bottom-color:var(--paper)}
 
-  /* ---------- motion ---------- */
-  @keyframes rise{
-    from{opacity:0;transform:translateY(14px)}
-    to{opacity:1;transform:none}
-  }
+  /* ---------- motion (hero only) ---------- */
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   @keyframes fade{from{opacity:0}to{opacity:1}}
-  @keyframes splitL{
-    from{opacity:0;transform:translateX(13px)}
-    to{opacity:1;transform:none}
-  }
-  @keyframes splitR{
-    from{opacity:0;transform:translateX(-13px)}
-    to{opacity:1;transform:none}
-  }
+  @keyframes splitL{from{opacity:0;transform:translateX(13px)}to{opacity:1;transform:none}}
+  @keyframes splitR{from{opacity:0;transform:translateX(-13px)}to{opacity:1;transform:none}}
 
   .rise{animation:rise .85s cubic-bezier(.22,.7,.3,1) both;animation-delay:var(--d,0s)}
   .half-l{animation:splitL 1.15s cubic-bezier(.22,.75,.25,1) .25s both}
@@ -310,202 +512,355 @@
     .rise,.half-l,.half-r,.early,.late{animation:none}
   }
 
-  /* ---------- responsive ----------
-     Sizes above already scale with viewport height via min(vw,vh), so these
-     only handle column layout and how tall the mark is allowed to be. */
-
-  @media (max-width:860px){
-    main{
-      grid-template-columns:1fr;
-      gap:clamp(1.1rem,min(8vw,3.2vh),3.25rem);
-      padding:clamp(.4rem,2.4vh,3.25rem) 0;
-    }
-    .figure{order:-1;justify-self:start;max-width:min(340px,36vh)}
-    h1{max-width:16ch}
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .cards{grid-template-columns:1fr}
+    .packs{grid-template-columns:repeat(2,minmax(0,1fr))}
   }
 
-  @media (max-width:520px){
-    header{gap:.5rem 1rem}
-    .figure{max-width:min(290px,32vh)}
-  }
-
-  /* Short and wide (landscape phones, short desktop windows): two columns
-     keeps everything on one screen where one column could not. */
-  @media (min-width:640px) and (max-height:620px){
-    main{
-      grid-template-columns:minmax(0,1fr) minmax(0,.7fr);
-      gap:clamp(1.5rem,5vw,4rem);
-      padding:clamp(.4rem,2vh,2rem) 0;
-    }
-    .figure{order:0;justify-self:center;max-width:min(340px,74vh)}
+  @media (max-width:820px){
+    .hero-grid,.story-grid,.follow-grid{grid-template-columns:1fr}
+    .hero-grid{gap:clamp(2rem,7vw,3rem)}
+    .figure{justify-self:start;max-width:380px}
     h1{max-width:15ch}
+    .optional-grid{grid-template-columns:1fr}
   }
 
-  /* Landscape phones and other very short windows. The clamp floors above
-     stop shrinking before this point, so drop them explicitly. */
-  @media (max-height:500px){
-    .wordmark img{height:18px}
-    .status,footer{font-size:.62rem}
-    .eyebrow{font-size:.7rem;margin-bottom:.4rem}
-    h1{font-size:clamp(1.25rem,5.6vh,1.85rem);line-height:1.06}
-    .lede{font-size:.82rem;line-height:1.45;max-width:52ch;margin-top:.5rem}
-    .tagline{font-size:.68rem;margin-top:.5rem;padding-top:.45rem}
-    .signup{margin-top:.5rem}
-    .signup-label{font-size:.66rem;margin-bottom:.35rem}
-    .signup input[type=email]{font-size:.85rem;padding:.4rem 0}
-    .signup button{font-size:.66rem;padding:.5rem .9rem}
-    .signup-note{font-size:.72rem;margin-top:.25rem}
+  @media (max-width:560px){
+    .packs{grid-template-columns:1fr}
+    .signup-row{flex-direction:column;align-items:stretch}
+    .signup-row input[type=email]{width:100%}
+    .signup-row .btn{width:100%;text-align:center}
+    .foot-in{flex-direction:column;align-items:flex-start;gap:1.5rem}
   }
 
-  /* Narrow and short together leaves no room for the mark; text and the
-     signup matter more than the illustration. */
-  @media (max-width:639px) and (max-height:430px){
-    .figure{display:none}
-    main{grid-template-columns:1fr}
-  }
-
-  /* Very narrow phones (320px class). */
-  @media (max-width:345px){
-    h1{font-size:clamp(1.45rem,7.2vw,1.9rem)}
-    .lede{font-size:.86rem;line-height:1.5}
-    .figure{max-width:min(230px,25vh)}
-    main{gap:.9rem}
-  }
-
-  /* Narrow and not tall enough for both the mark and the signup. */
-  @media (max-width:345px) and (max-height:640px){
-    .figure{display:none}
-    main{grid-template-columns:1fr}
+  @media (max-width:400px){
+    h1{font-size:clamp(2rem,10vw,2.6rem)}
+    .sizes li{min-width:3rem}
   }
 </style>
 </head>
 
 <body>
 
-  <header>
-    <p class="wordmark rise"><img src="/assets/gripforge-logo.png" width="760" height="110" alt="GripForge"></p>
-    <p class="status rise" style="--d:.1s"><span class="dot" aria-hidden="true"></span>We&rsquo;re getting set up.</p>
-  </header>
+<header class="site-head">
+  <div class="wrap head-in">
+    <a class="wordmark" href="#top" aria-label="GripForge, back to top">
+      <img src="/assets/gripforge-logo.png" width="760" height="110" alt="GripForge">
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="link" href="#frameboard">Frameboard</a>
+      <a class="link" href="#story">Our Story</a>
+      <a class="link" href="#follow">Updates</a>
+      <a class="btn btn-ghost" href="#early-access" data-cta="nav">Join Early Access</a>
+    </nav>
+  </div>
+</header>
 
-  <hr class="rule">
+<main id="top">
 
-  <main>
-    <div>
-      <p class="eyebrow rise" style="--d:.18s">The Frameboard</p>
-      <h1 class="rise" style="--d:.26s">The hangboard that adjusts to you.</h1>
-      <p class="lede rise" style="--d:.36s">The Frameboard is a split, door-hung training board with adjustable reach and exchangeable holds. We&rsquo;re getting everything ready. More soon.</p>
-      <p class="tagline rise" style="--d:.46s">Set your reach. Swap your holds.</p>
+  <!-- ---------- hero ---------- -->
+  <section class="hero band">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker rise">Frameboard</p>
+        <h1 class="rise" style="--d:.08s">The hangboard that adjusts to you.</h1>
+        <p class="lede rise" style="--d:.18s">A door-mounted hangboard with adjustable reach and exchangeable holds, built by climbers in Michigan.</p>
+        <p class="hero-cta rise" style="--d:.26s">
+          <a class="btn" href="#early-access" data-cta="hero">Join Early Access</a>
+        </p>
+        <p class="hero-sub rise" style="--d:.34s">Working prototype now. First production run coming to Kickstarter.</p>
+      </div>
 
-      <form class="signup rise" style="--d:.54s" name="updates" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field">
+      <figure class="figure">
+        <!-- Proportions taken from the Frameboard render: board ~1:1, bracket 60% of
+             board width straddling the top edge, hold 92% of board width, tapered. -->
+        <svg viewBox="0 28 300 153" role="img" aria-label="Abstract mark: two independent Frameboard halves hung over a door, each holding one climbing hold, with an adjustable distance between them.">
+
+          <!-- door top edge -->
+          <g class="early">
+            <rect class="rail-fill" x="6" y="40" width="288" height="6"/>
+            <line class="rail" x1="6" y1="40" x2="294" y2="40"/>
+          </g>
+
+          <!-- left half -->
+          <g class="half-l">
+            <rect class="panel-edge" x="36" y="43" width="100" height="98" rx="3"/>
+            <rect class="panel-fill" x="33" y="40" width="100" height="98" rx="3"/>
+            <rect class="panel-line" x="33" y="40" width="100" height="98" rx="3"/>
+            <text class="engrave" x="83" y="84" textLength="78" lengthAdjust="spacingAndGlyphs">FRAME BOARD</text>
+            <path class="hold" d="M37 91 H129 L123 130 H43 Z"/>
+            <rect class="metal" x="53" y="36" width="60" height="30" rx="2"/>
+            <rect class="slot" x="62" y="38" width="14" height="2.6" rx="1.2"/>
+            <rect class="slot" x="93" y="38" width="14" height="2.6" rx="1.2"/>
+            <circle class="bolt" cx="66" cy="48" r="3"/>
+            <circle class="bolt" cx="100" cy="48" r="3"/>
+            <circle class="bolt" cx="66" cy="61" r="3"/>
+            <circle class="bolt" cx="100" cy="61" r="3"/>
+          </g>
+
+          <!-- right half -->
+          <g class="half-r">
+            <rect class="panel-edge" x="170" y="43" width="100" height="98" rx="3"/>
+            <rect class="panel-fill" x="167" y="40" width="100" height="98" rx="3"/>
+            <rect class="panel-line" x="167" y="40" width="100" height="98" rx="3"/>
+            <text class="engrave" x="217" y="84" textLength="78" lengthAdjust="spacingAndGlyphs">FRAME BOARD</text>
+            <path class="hold" d="M171 91 H263 L257 130 H177 Z"/>
+            <rect class="metal" x="187" y="36" width="60" height="30" rx="2"/>
+            <rect class="slot" x="196" y="38" width="14" height="2.6" rx="1.2"/>
+            <rect class="slot" x="227" y="38" width="14" height="2.6" rx="1.2"/>
+            <circle class="bolt" cx="200" cy="48" r="3"/>
+            <circle class="bolt" cx="234" cy="48" r="3"/>
+            <circle class="bolt" cx="200" cy="61" r="3"/>
+            <circle class="bolt" cx="234" cy="61" r="3"/>
+          </g>
+
+          <!-- adjustable reach -->
+          <g class="late">
+            <line class="drop" x1="83" y1="144" x2="83" y2="161"/>
+            <line class="drop" x1="217" y1="144" x2="217" y2="161"/>
+            <line class="reach" x1="83" y1="168" x2="217" y2="168"/>
+            <polyline class="reach" points="90,163 83,168 90,173"/>
+            <polyline class="reach" points="210,163 217,168 210,173"/>
+          </g>
+
+        </svg>
+        <!-- Placeholder for real prototype photography. Drop a photo in here and
+             delete the svg above when we have one worth showing. -->
+        <figcaption>Diagram, not a photo. Prototype shots coming.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ---------- story ---------- -->
+  <section id="story" class="band">
+    <div class="wrap story-grid">
+      <div>
+        <p class="kicker">Our Story</p>
+        <h2>We wanted a hangboard in our dorm.</h2>
+      </div>
+      <div>
+        <p>We&rsquo;re three climbers heading into college. We wanted somewhere to train, but drilling a hangboard into a dorm wall wasn&rsquo;t exactly an option.</p>
+        <p>So we started building one that hangs on the door instead.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- why frameboard ---------- -->
+  <section id="frameboard" class="band">
+    <div class="wrap">
+      <p class="kicker">Why Frameboard</p>
+      <h2>Why it&rsquo;s two pieces instead of one.</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Adjustable reach</h3>
+          <p>Frameboard is split into two independent sides, so you choose the distance between your hands.</p>
+        </div>
+        <div class="card">
+          <h3>Exchangeable holds</h3>
+          <p>One hold per side. Swap the holds depending on what you want to train instead of having every grip permanently built into one giant board.</p>
+        </div>
+        <div class="card">
+          <h3>No wall mounting</h3>
+          <p>Frameboard hangs from the door, so it doesn&rsquo;t require permanently drilling a hangboard into the wall.</p>
+        </div>
+      </div>
+
+      <p class="note">Wood body, metal over-door mounting components, polyurethane holds. Designed around standard 1 3/8-inch doors.</p>
+    </div>
+  </section>
+
+  <!-- ---------- hold system ---------- -->
+  <section id="holds" class="band">
+    <div class="wrap">
+      <p class="kicker">Hold System</p>
+      <h2>Every board comes with two pairs of holds.</h2>
+
+      <div class="packs">
+        <div class="pack is-included">
+          <span class="tag">Included</span>
+          <h3>Starter</h3>
+          <ul class="sizes">
+            <li>40mm</li>
+            <li>30mm</li>
+          </ul>
+        </div>
+        <div class="pack">
+          <span class="tag">Planned</span>
+          <h3>Crimp Pack</h3>
+          <ul class="sizes">
+            <li>25mm</li>
+            <li>20mm</li>
+            <li>15mm</li>
+            <li>10mm</li>
+          </ul>
+        </div>
+        <div class="pack">
+          <span class="tag">Planned</span>
+          <h3>Slope Pack</h3>
+          <ul class="sizes">
+            <li>10&deg;</li>
+            <li>20&deg;</li>
+            <li>30&deg;</li>
+          </ul>
+        </div>
+        <div class="pack">
+          <span class="tag">Planned</span>
+          <h3>Variety Pack</h3>
+          <ul class="sizes">
+            <li>Jug</li>
+            <li>Sloper</li>
+            <li>Pinch</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="note">The starter pairs come with the board. The additional packs are planned, and the exact production lineup is still being finalized.</p>
+    </div>
+  </section>
+
+  <!-- ---------- built in michigan ---------- -->
+  <section id="build" class="band">
+    <div class="wrap story-grid">
+      <div>
+        <p class="kicker">Built in Michigan</p>
+        <h2>From prototype to production.</h2>
+      </div>
+      <div>
+        <p>Frameboard started as something we wanted for ourselves.</p>
+        <p>We&rsquo;re currently working from a functional prototype and refining the design for our first production run, using CNC machining alongside hands-on fabrication and finishing in Michigan.</p>
+        <p>We&rsquo;re documenting the process as we go.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- follow the build ---------- -->
+  <section id="follow" class="band">
+    <div class="wrap follow-grid">
+      <div>
+        <p class="kicker">Updates</p>
+        <h2>Follow the build.</h2>
+        <p class="lede">Prototype changes. Failed ideas. New holds. Testing. Manufacturing. We&rsquo;re building Frameboard in public.</p>
+      </div>
+      <div>
+        <!-- TODO: swap these spans for real links once the accounts exist, e.g.
+             <li><a class="btn btn-ghost" href="https://instagram.com/USERNAME"
+                    data-cta="social">Instagram</a></li>
+             Same pattern for TikTok and YouTube. Nothing is linked yet because
+             no verified GripForge accounts have been provided. -->
+        <ul class="socials">
+          <li><span>Instagram</span></li>
+          <li><span>TikTok</span></li>
+          <li><span>YouTube</span></li>
+        </ul>
+        <p class="note">Channels aren&rsquo;t live yet. The early list gets the updates first either way.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- final cta ---------- -->
+  <section id="early-access" class="cta">
+    <div class="wrap band">
+      <p class="kicker">Early Access</p>
+      <h2>Want one when we launch?</h2>
+      <p class="lede">Join the early list and we&rsquo;ll let you know when Frameboard goes live.</p>
+
+      <form class="signup" name="updates" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="updates">
         <p class="hp"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
-        <label class="signup-label" for="email">Hear when it ships</label>
+        <label class="field-label" for="email">Email address</label>
         <div class="signup-row">
           <input id="email" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
-          <button type="submit">Notify me</button>
+          <button class="btn" type="submit" data-cta="submit">Join Early Access</button>
         </div>
+
+        <div class="optional">
+          <p class="optional-head">Optional. It tells us what to build first.</p>
+          <div class="optional-grid">
+            <div>
+              <label class="field-label" for="first-name">First name</label>
+              <input id="first-name" type="text" name="first-name" placeholder="Optional" autocomplete="given-name">
+            </div>
+            <div>
+              <label class="field-label" for="where">Where you&rsquo;d use it</label>
+              <select id="where" name="where">
+                <option value="">No answer</option>
+                <option value="Dorm">Dorm</option>
+                <option value="Apartment">Apartment</option>
+                <option value="House">House</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="train">What you&rsquo;d train</label>
+              <select id="train" name="train">
+                <option value="">No answer</option>
+                <option value="Crimps">Crimps</option>
+                <option value="Slopers">Slopers</option>
+                <option value="Pinches">Pinches</option>
+                <option value="General finger strength">General finger strength</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <p class="signup-note" role="status" aria-live="polite"></p>
+        <p class="fineprint">No spam. Just Frameboard updates and launch information.</p>
       </form>
     </div>
+  </section>
 
-    <figure class="figure">
-      <!-- Proportions taken from the Frameboard render: board ~1:1, bracket 60% of
-           board width straddling the top edge, hold 92% of board width, tapered. -->
-      <svg viewBox="0 28 300 153" role="img" aria-label="Abstract mark: two independent Frameboard halves hung over a door, each holding one climbing hold, with an adjustable distance between them.">
+</main>
 
-        <!-- door top edge -->
-        <g class="early">
-          <rect class="rail-fill" x="6" y="40" width="288" height="6"/>
-          <line class="rail" x1="6" y1="40" x2="294" y2="40"/>
-        </g>
+<footer class="site-foot">
+  <div class="wrap foot-in">
+    <div class="foot-brand">
+      <img src="/assets/gripforge-logo.png" width="760" height="110" alt="GripForge">
+      <p>Michigan, USA</p>
+    </div>
+    <div class="foot-links">
+      <a href="mailto:info@gripforge.us">info@gripforge.us</a>
+      <span>&copy; 2026 GripForge</span>
+    </div>
+  </div>
+</footer>
 
-        <!-- left half -->
-        <g class="half-l">
-          <rect class="panel-edge" x="36" y="43" width="100" height="98" rx="3"/>
-          <rect class="panel-fill" x="33" y="40" width="100" height="98" rx="3"/>
-          <rect class="panel-line" x="33" y="40" width="100" height="98" rx="3"/>
-          <text class="engrave" x="83" y="84" textLength="78" lengthAdjust="spacingAndGlyphs">FRAME BOARD</text>
-          <path class="hold" d="M37 91 H129 L123 130 H43 Z"/>
-          <rect class="metal" x="53" y="36" width="60" height="30" rx="2"/>
-          <rect class="slot" x="62" y="38" width="14" height="2.6" rx="1.2"/>
-          <rect class="slot" x="93" y="38" width="14" height="2.6" rx="1.2"/>
-          <circle class="bolt" cx="66" cy="48" r="3"/>
-          <circle class="bolt" cx="100" cy="48" r="3"/>
-          <circle class="bolt" cx="66" cy="61" r="3"/>
-          <circle class="bolt" cx="100" cy="61" r="3"/>
-        </g>
+<script>
+  // Progressive enhancement only. Without JS the form posts normally and
+  // Netlify redirects to /thanks/.
+  (function () {
+    var form = document.querySelector('.signup');
+    if (!form || !window.fetch || !window.URLSearchParams) return;
 
-        <!-- right half -->
-        <g class="half-r">
-          <rect class="panel-edge" x="170" y="43" width="100" height="98" rx="3"/>
-          <rect class="panel-fill" x="167" y="40" width="100" height="98" rx="3"/>
-          <rect class="panel-line" x="167" y="40" width="100" height="98" rx="3"/>
-          <text class="engrave" x="217" y="84" textLength="78" lengthAdjust="spacingAndGlyphs">FRAME BOARD</text>
-          <path class="hold" d="M171 91 H263 L257 130 H177 Z"/>
-          <rect class="metal" x="187" y="36" width="60" height="30" rx="2"/>
-          <rect class="slot" x="196" y="38" width="14" height="2.6" rx="1.2"/>
-          <rect class="slot" x="227" y="38" width="14" height="2.6" rx="1.2"/>
-          <circle class="bolt" cx="200" cy="48" r="3"/>
-          <circle class="bolt" cx="234" cy="48" r="3"/>
-          <circle class="bolt" cx="200" cy="61" r="3"/>
-          <circle class="bolt" cx="234" cy="61" r="3"/>
-        </g>
+    var note = form.querySelector('.signup-note');
+    var button = form.querySelector('button[type=submit]');
 
-        <!-- adjustable reach -->
-        <g class="late">
-          <line class="drop" x1="83" y1="144" x2="83" y2="161"/>
-          <line class="drop" x1="217" y1="144" x2="217" y2="161"/>
-          <line class="reach" x1="83" y1="168" x2="217" y2="168"/>
-          <polyline class="reach" points="90,163 83,168 90,173"/>
-          <polyline class="reach" points="210,163 217,168 210,173"/>
-        </g>
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      button.disabled = true;
+      note.removeAttribute('data-state');
+      note.textContent = 'Sending…';
 
-      </svg>
-    </figure>
-  </main>
-
-  <hr class="rule">
-
-  <footer>
-    <a class="mail" href="mailto:info@gripforge.us">info@gripforge.us</a>
-    <span>&copy; 2026 GripForge</span>
-  </footer>
-
-  <script>
-    // Progressive enhancement only. Without JS the form posts normally and
-    // Netlify redirects to /thanks/.
-    (function () {
-      var form = document.querySelector('.signup');
-      if (!form || !window.fetch || !window.URLSearchParams) return;
-
-      var note = form.querySelector('.signup-note');
-      var button = form.querySelector('button');
-
-      form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        button.disabled = true;
-        note.removeAttribute('data-state');
-        note.textContent = 'Sending…';
-
-        fetch('/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: new URLSearchParams(new FormData(form)).toString()
-        }).then(function (res) {
-          if (!res.ok) throw new Error(res.status);
-          form.reset();
-          note.setAttribute('data-state', 'ok');
-          note.textContent = 'You’re on the list.';
-        }).catch(function () {
-          note.setAttribute('data-state', 'err');
-          note.textContent = 'That didn’t send. Try again in a moment.';
-        }).then(function () {
-          button.disabled = false;
-        });
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      }).then(function (res) {
+        if (!res.ok) throw new Error(res.status);
+        form.reset();
+        note.setAttribute('data-state', 'ok');
+        note.textContent = 'You’re on the list.';
+      }).catch(function () {
+        note.setAttribute('data-state', 'err');
+        note.textContent = 'That didn’t send. Try again in a moment.';
+      }).then(function () {
+        button.disabled = false;
       });
-    })();
-  </script>
+    });
+  })();
+</script>
 
 </body>
 </html>
