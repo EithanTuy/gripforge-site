@@ -6,7 +6,7 @@
 <title>GripForge Frameboard | Door-Mounted Adjustable Hangboard</title>
 <meta name="description" content="Meet Frameboard by GripForge, a door-mounted hangboard with adjustable reach and exchangeable climbing holds. Built by climbers in Michigan.">
 <link rel="canonical" href="https://gripforge.us/">
-<meta name="theme-color" content="#0D0D0C">
+<meta name="theme-color" content="#F2EDE3">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="GripForge">
 <meta property="og:title" content="GripForge Frameboard | Door-Mounted Adjustable Hangboard">
@@ -14,23 +14,23 @@
 <meta property="og:url" content="https://gripforge.us/">
 <!-- TODO: replace with a 1200x630 share card once we have one. The logo is
      760x110, so link previews render it small; twitter:card stays "summary". -->
-<meta property="og:image" content="https://gripforge.us/assets/gripforge-logo.png">
+<meta property="og:image" content="https://gripforge.us/assets/gripforge-logo-dark.png">
 <meta property="og:image:alt" content="GripForge">
 <meta name="twitter:card" content="summary">
-<link rel="icon" type="image/png" href="/assets/gripforge-mark.png">
-<link rel="apple-touch-icon" href="/assets/gripforge-mark.png">
+<link rel="icon" type="image/png" href="/assets/gripforge-mark-dark.png">
+<link rel="apple-touch-icon" href="/assets/gripforge-mark-dark.png">
 
 <style>
   :root{
-    color-scheme:dark;
-    --ink:#0D0D0C;
-    --panel:#131312;
-    --paper:#F0EBE1;
-    --muted:rgba(240,235,225,.62);
-    --dim:rgba(240,235,225,.45);
-    --faint:rgba(240,235,225,.12);
-    --wood:#B98551;
-    --ember:#CF4E22;
+    color-scheme:light;
+    --ink:#14130F;
+    --panel:#E8E2D6;
+    --paper:#F2EDE3;
+    --muted:rgba(20,19,16,.68);
+    --dim:rgba(20,19,16,.52);
+    --faint:rgba(20,19,16,.13);
+    --wood:#8A5C2C;
+    --ember:#C2431A;
     --pad:clamp(1.15rem,5vw,3.25rem);
     /* Softened corners, deliberately small so the page stays square. */
     --r:4px;
@@ -40,24 +40,24 @@
 
   html{
     -webkit-text-size-adjust:100%;
-    background:var(--ink);
+    background:var(--paper);
     scroll-behavior:smooth;
     scroll-padding-top:5rem;
     scrollbar-width:thin;
-    scrollbar-color:rgba(240,235,225,.24) var(--ink);
+    scrollbar-color:rgba(20,19,16,.24) var(--paper);
   }
 
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 
   ::-webkit-scrollbar{width:10px;height:10px}
-  ::-webkit-scrollbar-track{background:var(--ink)}
-  ::-webkit-scrollbar-thumb{background:rgba(240,235,225,.2);border:2px solid var(--ink)}
-  ::-webkit-scrollbar-thumb:hover{background:rgba(240,235,225,.34)}
+  ::-webkit-scrollbar-track{background:var(--paper)}
+  ::-webkit-scrollbar-thumb{background:rgba(20,19,16,.2);border:2px solid var(--paper)}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(20,19,16,.34)}
 
   body{
     margin:0;
-    background:var(--ink);
-    color:var(--paper);
+    background:var(--paper);
+    color:var(--ink);
     font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
     font-synthesis-weight:none;
     -webkit-font-smoothing:antialiased;
@@ -71,7 +71,7 @@
     inset:0;
     pointer-events:none;
     z-index:3;
-    opacity:.04;
+    opacity:.03;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
@@ -153,32 +153,32 @@
     text-transform:uppercase;
     text-decoration:none;
     padding:.95rem 1.5rem;
-    border:1px solid var(--paper);
-    background:var(--paper);
-    color:var(--ink);
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:var(--paper);
     cursor:pointer;
     border-radius:var(--r);
     transition:background .18s ease,color .18s ease;
   }
 
-  .btn:hover{background:transparent;color:var(--paper)}
+  .btn:hover{background:transparent;color:var(--ink)}
 
   .btn-ghost{
     background:transparent;
-    color:var(--paper);
-    border-color:rgba(240,235,225,.3);
+    color:var(--ink);
+    border-color:rgba(20,19,16,.3);
     padding:.6rem 1rem;
     font-size:.68rem;
   }
 
-  .btn-ghost:hover{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 
   /* ---------- header ---------- */
   .site-head{
     position:sticky;
     top:0;
     z-index:2;
-    background:var(--ink);
+    background:var(--paper);
     border-bottom:1px solid var(--faint);
   }
 
@@ -210,7 +210,7 @@
     transition:color .18s ease;
   }
 
-  .nav a.link:hover{color:var(--paper)}
+  .nav a.link:hover{color:var(--ink)}
 
   /* Links collapse on small screens; the CTA never does. Once it is the only
      control up there it also has to clear a 44px touch target. */
@@ -242,8 +242,8 @@
   .figure{margin:0;justify-self:center;width:100%;max-width:460px}
   .figure svg{display:block;width:100%;height:auto}
 
-  .panel-edge{fill:var(--wood);opacity:.07}
-  .panel-fill{fill:var(--wood);opacity:.13}
+  .panel-edge{fill:var(--wood);opacity:.12}
+  .panel-fill{fill:var(--wood);opacity:.17}
   .panel-line{fill:none;stroke:var(--wood);stroke-width:1.3}
   .engrave{
     fill:var(--wood);
@@ -253,13 +253,13 @@
     letter-spacing:.7px;
     text-anchor:middle;
   }
-  .metal{fill:var(--ink);stroke:var(--paper);stroke-opacity:.5;stroke-width:1.2}
-  .slot{fill:var(--paper);opacity:.3}
-  .bolt{fill:var(--paper);opacity:.36}
-  .hold{fill:#1B1B19;stroke:var(--paper);stroke-opacity:.42;stroke-width:1.2;stroke-linejoin:round}
-  .rail{stroke:var(--paper);stroke-opacity:.2;stroke-width:1.2}
-  .rail-fill{fill:var(--paper);opacity:.05}
-  .drop{stroke:var(--paper);stroke-opacity:.14;stroke-width:.9;stroke-dasharray:3 4}
+  .metal{fill:var(--paper);stroke:var(--ink);stroke-opacity:.5;stroke-width:1.2}
+  .slot{fill:var(--ink);opacity:.3}
+  .bolt{fill:var(--ink);opacity:.36}
+  .hold{fill:rgba(20,19,16,.07);stroke:var(--ink);stroke-opacity:.42;stroke-width:1.2;stroke-linejoin:round}
+  .rail{stroke:var(--ink);stroke-opacity:.2;stroke-width:1.2}
+  .rail-fill{fill:var(--ink);opacity:.06}
+  .drop{stroke:var(--ink);stroke-opacity:.14;stroke-width:.9;stroke-dasharray:3 4}
   .reach{stroke:var(--ember);stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
   .figure figcaption{
@@ -302,7 +302,7 @@
   }
 
   .card{
-    background:var(--ink);
+    background:var(--paper);
     padding:clamp(1.4rem,3vw,2rem);
   }
 
@@ -325,9 +325,9 @@
   }
 
   .pack{background:var(--panel);padding:clamp(1.25rem,2.6vw,1.75rem)}
-  .pack.is-included{background:var(--ink)}
+  .pack.is-included{background:var(--paper)}
 
-  .pack h3{color:var(--paper)}
+  .pack h3{color:var(--ink)}
 
   .pack .tag{
     display:inline-block;
@@ -337,7 +337,7 @@
     letter-spacing:.16em;
     text-transform:uppercase;
     padding:.3rem .5rem;
-    border:1px solid rgba(185,133,81,.45);
+    border:1px solid rgba(138,92,44,.45);
     border-radius:var(--r);
     color:var(--wood);
   }
@@ -347,7 +347,7 @@
   .sizes li{
     font-size:.82rem;
     font-variant-numeric:tabular-nums;
-    color:var(--paper);
+    color:var(--ink);
     border:1px solid var(--faint);
     border-radius:var(--r);
     padding:.4rem .6rem;
@@ -372,7 +372,7 @@
     letter-spacing:.16em;
     text-transform:uppercase;
     padding:.7rem 1.05rem;
-    border:1px dashed rgba(240,235,225,.22);
+    border:1px dashed rgba(20,19,16,.22);
     border-radius:var(--r);
     color:var(--dim);
   }
@@ -399,9 +399,9 @@
   .signup input,.signup select{
     background:transparent;
     border:0;
-    border-bottom:1px solid rgba(240,235,225,.26);
+    border-bottom:1px solid rgba(20,19,16,.26);
     border-radius:0;
-    color:var(--paper);
+    color:var(--ink);
     font:inherit;
     font-size:.95rem;
     padding:.72rem 0;
@@ -409,11 +409,11 @@
     min-width:0;
   }
 
-  .signup input::placeholder{color:rgba(240,235,225,.42)}
+  .signup input::placeholder{color:rgba(20,19,16,.42)}
   .signup input:focus,.signup select:focus{border-bottom-color:var(--ember)}
 
   /* Native menu is light; force readable option text on every platform. */
-  .signup select option{background:var(--ink);color:var(--paper)}
+  .signup select option{background:var(--paper);color:var(--ink)}
 
   .signup-row input[type=email]{flex:1 1 13rem;width:auto}
   .signup-row .btn{flex:0 0 auto}
@@ -489,12 +489,12 @@
   .foot-links a{
     color:var(--muted);
     text-decoration:none;
-    border-bottom:1px solid rgba(240,235,225,.22);
+    border-bottom:1px solid rgba(20,19,16,.22);
     padding-bottom:.15rem;
     transition:color .18s ease,border-color .18s ease;
   }
 
-  .foot-links a:hover{color:var(--paper);border-bottom-color:var(--paper)}
+  .foot-links a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
   /* ---------- motion (hero only) ---------- */
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -546,7 +546,7 @@
 <header class="site-head">
   <div class="wrap head-in">
     <a class="wordmark" href="#top" aria-label="GripForge, back to top">
-      <img src="/assets/gripforge-logo.png" width="760" height="110" alt="GripForge">
+      <img src="/assets/gripforge-logo-dark.png" width="760" height="110" alt="GripForge">
     </a>
     <nav class="nav" aria-label="Primary">
       <a class="link" href="#frameboard">Frameboard</a>
@@ -741,7 +741,7 @@
       <div>
         <p class="kicker">Updates</p>
         <h2>Follow the build.</h2>
-        <p class="lede">Prototype changes. Failed ideas. New holds. Testing. Manufacturing. We&rsquo;re building Frameboard in public.</p>
+        <p class="lede">We&rsquo;re building Frameboard in public, so expect prototype changes, failed ideas, new holds, and manufacturing progress as it actually happens.</p>
       </div>
       <div>
         <!-- TODO: swap these spans for real links once the accounts exist, e.g.
@@ -817,7 +817,7 @@
 <footer class="site-foot">
   <div class="wrap foot-in">
     <div class="foot-brand">
-      <img src="/assets/gripforge-logo.png" width="760" height="110" alt="GripForge">
+      <img src="/assets/gripforge-logo-dark.png" width="760" height="110" alt="GripForge">
       <p>Michigan, USA</p>
     </div>
     <div class="foot-links">
